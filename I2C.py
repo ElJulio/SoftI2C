@@ -29,10 +29,11 @@ class i2cMaster:
         if bitrate == 100:
             self.int_clk = 0.0000025
         elif bitrate == 400:
-            self.int_clk =
+            self.int_clk = 0.000000625
         elif bitrate == 1000:
-
+            self.int_clk = 1
         elif bitrate == 3200:
+            self.int_clk = 1
 
     def Start():
         #SCL
