@@ -47,8 +47,8 @@ class i2cMaster:
 
         GPIO.setup(self.SDA, GPIO.OUT) #cnfigure SDA as output
 
-        GPIO.output(self.SCL, GPIO.HIGH)
         GPIO.output(self.SDA, GPIO.HIGH)
+        GPIO.output(self.SCL, GPIO.HIGH)
         self.tick()
         GPIO.output(self.SDA, GPIO.LOW)
         self.tick()
@@ -68,4 +68,21 @@ class i2cMaster:
         self.tick()
 
     def Stop(self):
+        #SCL
+        #  ______
+        #  |     |______
+        #SDA
+        #     ___
+        #   __|  |______
+        GPIO.setup(self.SDA, GPIO.OUT) #cnfigure SDA as output
+
+        GPIO.output(self.SDA, GPIO.LOW)
+        GPIO.output(self.SCL, GPIO.HIGH)
+        self.tick()
+        GPIO.output(self.SDA, GPIO.HIGH)
+        self.tick()
+        GPIO.output(self.SCL, GPIO.LOW)
+        GPIO.output(self.SDA, GPIO.LOW)
+
+        self.tick()
         self.tick()
