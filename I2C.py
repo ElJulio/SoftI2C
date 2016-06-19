@@ -6,7 +6,7 @@ import time
 import RPi.GPIO as GPIO
 
 class i2cMaster:
-    bitrate = -1
+
     int_clk = -1
 
     SDA = 1 #default sda
@@ -36,6 +36,7 @@ class i2cMaster:
             self.int_clk = 1
 
     def Start(self):
+        global SDA,SCL,int_clk
         #SCL
         #  ______
         #  |     |______
