@@ -27,6 +27,7 @@ class i2cMaster:
         GPIO.setmode(GPIO.BCM)
         GPIO.setwarnings(False)
         GPIO.setup(self.SCL, GPIO.OUT)
+        GPIO.setup(self.SDA, GPIO.OUT)
         GPIO.output(self.SDA, GPIO.HIGH)
         GPIO.output(self.SCL, GPIO.HIGH)
 
