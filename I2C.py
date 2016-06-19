@@ -72,8 +72,8 @@ class i2cMaster:
         #print byte
         GPIO.setup(self.SDA, GPIO.OUT)
         for i in range(8):
-
-            if (byte >> i) & 0x1 == 0x1:
+            #MSB First
+            if (byte << i) & 0x80 == 0x80:
                 GPIO.output(self.SDA, GPIO.HIGH)
                 GPIO.output(self.SCL, GPIO.HIGH)
                 self.tick(2)
@@ -89,13 +89,13 @@ class i2cMaster:
 
         GPIO.setup(self.SDA, GPIO.IN)
         GPIO.output(self.SCL, GPIO.HIGH)
-        self.tick(1)
+        #self.tick(1)
         #Get The ACK
         #if GPIO.input(self.SDA):
         #    print "ACK"
         #else:
         #    print "NACK"
-        self.tick(1)
+        self.tick(2)
         GPIO.output(self.SCL, GPIO.LOW)
         self.tick(2)
 
