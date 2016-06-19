@@ -12,8 +12,8 @@ class i2cMaster:
     SDA = 17 #default sda
     SCL = 27 #default scl
 
-    def tick(self):
-        time.sleep(self.int_clk)
+    def tick(self,anz):
+        time.sleep(anz*self.int_clk)
 
     def init(self,bitrate,SDAPIN,SCLPIN):
         if(SDAPIN != SCLPIN):
@@ -27,6 +27,7 @@ class i2cMaster:
         GPIO.setmode(GPIO.BCM)
         GPIO.setwarnings(False)
         GPIO.setup(self.SCL, GPIO.OUT)
+
 
         if bitrate == 100:
             self.int_clk = 0.0000025
@@ -49,40 +50,64 @@ class i2cMaster:
 
         GPIO.output(self.SDA, GPIO.HIGH)
         GPIO.output(self.SCL, GPIO.HIGH)
-        self.tick()
+        self.tick(1)
         GPIO.output(self.SDA, GPIO.LOW)
-        self.tick()
+        self.tick(1)
         GPIO.output(self.SCL, GPIO.LOW)
-
-        self.tick()
-        self.tick()
+        self.tick(2)
 
 
     def ReadAck(self):
-        self.tick()
+        self.tick(1)
 
     def ReadNack(self):
-        self.tick()
+        self.tick(1)
 
-    def Write(self):
-        self.tick()
+    def WriteByte(self,byte):
+        if byte > 0xff:
+            return -1
+        print byte
+        GPIO.setup(self.SDA, GPIO.OUT)
+        for i in range(8):
+
+            if (byte >> i) & 0x1 == 0x1:
+                GPIO.output(self.SDA, GPIO.HIGH)
+                GPIO.output(self.SCL, GPIO.HIGH)
+                self.tick(2)
+                GPIO.output(self.SCL, GPIO.LOW)
+                GPIO.output(self.SDA, GPIO.LOW)
+                self.tick(2)
+            else:
+                GPIO.output(self.SDA, GPIO.LOW)
+                GPIO.output(self.SCL, GPIO.HIGH)
+                self.tick(2)
+                GPIO.output(self.SCL, GPIO.LOW)
+                self.tick(2)
+
+        GPIO.setup(self.SDA, GPIO.IN)
+        GPIO.output(self.SCL, GPIO.HIGH)
+        self.tick(1)
+        #Get The ACK
+        if GPIO.input(self.SDA):
+            print "ACK"
+        else:
+            print "NACK"
+        self.tick(1)
+        GPIO.output(self.SCL, GPIO.LOW)
+        self.tick(2)
+
 
     def Stop(self):
         #SCL
-        #  ______
-        #  |     |______
+        #  _____________
+        #  |
         #SDA
-        #     ___
-        #   __|  |______
+        #     __________
+        #   __|
         GPIO.setup(self.SDA, GPIO.OUT) #cnfigure SDA as output
 
         GPIO.output(self.SDA, GPIO.LOW)
         GPIO.output(self.SCL, GPIO.HIGH)
-        self.tick()
+        self.tick(1)
         GPIO.output(self.SDA, GPIO.HIGH)
-        self.tick()
-        GPIO.output(self.SCL, GPIO.LOW)
-        GPIO.output(self.SDA, GPIO.LOW)
-
-        self.tick()
-        self.tick()
+        self.tick(3)
