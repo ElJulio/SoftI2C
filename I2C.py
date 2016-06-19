@@ -5,7 +5,7 @@
 import time
 import RPi.GPIO as GPIO
 
-class i2c():
+class i2cMaster:
     bitrate = -1
     int_clk = -1
 
@@ -55,9 +55,13 @@ class i2c():
 
 
     def ReadAck():
+        tick()
 
     def ReadNack():
+        tick()
 
     def Write():
+        tick()
 
     def Stop():
+        tick()
