@@ -27,6 +27,8 @@ class i2cMaster:
         GPIO.setmode(GPIO.BCM)
         GPIO.setwarnings(False)
         GPIO.setup(self.SCL, GPIO.OUT)
+        GPIO.output(self.SDA, GPIO.HIGH)
+        GPIO.output(self.SCL, GPIO.HIGH)
 
 
         if bitrate == 100:
@@ -66,7 +68,7 @@ class i2cMaster:
     def WriteByte(self,byte):
         if byte > 0xff:
             return -1
-        print byte
+        #print byte
         GPIO.setup(self.SDA, GPIO.OUT)
         for i in range(8):
 
@@ -88,10 +90,10 @@ class i2cMaster:
         GPIO.output(self.SCL, GPIO.HIGH)
         self.tick(1)
         #Get The ACK
-        if GPIO.input(self.SDA):
-            print "ACK"
-        else:
-            print "NACK"
+        #if GPIO.input(self.SDA):
+        #    print "ACK"
+        #else:
+        #    print "NACK"
         self.tick(1)
         GPIO.output(self.SCL, GPIO.LOW)
         self.tick(2)
