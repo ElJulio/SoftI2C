@@ -9,10 +9,10 @@ class i2cMaster:
 
     int_clk = -1
 
-    SDA = 1 #default sda
-    SCL = 2 #default scl
+    SDA = 17 #default sda
+    SCL = 27 #default scl
 
-    def tick():
+    def tick(self):
         time.sleep(self.int_clk)
 
     def init(self,bitrate,SDAPIN,SCLPIN):
@@ -21,10 +21,12 @@ class i2cMaster:
             self.SDA = SDAPIN
 
         else:
-            print "SDA = GPIO1  SCL = GPIO2"
+            print "SDA = GPIO"+str(self.SDA)+"  SCL = GPIO"+str(self.SCL)
 
         #configer SCL as output
-        GPIO.setup(SCL, GPIO.OUT)
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setwarnings(False)
+        GPIO.setup(self.SCL, GPIO.OUT)
 
         if bitrate == 100:
             self.int_clk = 0.0000025
@@ -36,7 +38,6 @@ class i2cMaster:
             self.int_clk = 1
 
     def Start(self):
-        global SDA,SCL,int_clk
         #SCL
         #  ______
         #  |     |______
@@ -44,26 +45,27 @@ class i2cMaster:
         #  ___
         #  |  |_________
 
-        GPIO.setup(SDA, GPIO.OUT) #cnfigure SDA as output
+        GPIO.setup(self.SDA, GPIO.OUT) #cnfigure SDA as output
 
-        GPIO.output(SCL, GPIO.HIGH)
-        GPIO.output(SDA, GPIO.HIGH)
-        tick()
-        GPIO.output(SDA, GPIO.LOW)
-        tick()
-        GPIO.output(SCL, GPIO.LOW)
-        tick()
-        tick()
+        GPIO.output(self.SCL, GPIO.HIGH)
+        GPIO.output(self.SDA, GPIO.HIGH)
+        self.tick()
+        GPIO.output(self.SDA, GPIO.LOW)
+        self.tick()
+        GPIO.output(self.SCL, GPIO.LOW)
+
+        self.tick()
+        self.tick()
 
 
     def ReadAck(self):
-        tick()
+        self.tick()
 
     def ReadNack(self):
-        tick()
+        self.tick()
 
     def Write(self):
-        tick()
+        self.tick()
 
     def Stop(self):
-        tick()
+        self.tick()
