@@ -1,8 +1,8 @@
 #!/usr/bin/python
-import I2C.py
+import I2C
 
 def main():
-    i2c = i2cMaster()
+    i2c = I2C.i2cMaster()
     i2c.init(100,0,0)
     i2c.Start()
 

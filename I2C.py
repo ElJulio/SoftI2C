@@ -15,12 +15,12 @@ class i2cMaster:
     def tick():
         time.sleep(self.int_clk)
 
-    def init(bitrate,SDAPIN,SCLPIN):
+    def init(self,bitrate,SDAPIN,SCLPIN):
         if(SDAPIN != SCLPIN):
             self.SCL = SCLPIN
             self.SDA = SDAPIN
 
-        else
+        else:
             print "SDA = GPIO1  SCL = GPIO2"
 
         #configer SCL as output
@@ -35,7 +35,7 @@ class i2cMaster:
         elif bitrate == 3200:
             self.int_clk = 1
 
-    def Start():
+    def Start(self):
         #SCL
         #  ______
         #  |     |______
@@ -55,14 +55,14 @@ class i2cMaster:
         tick()
 
 
-    def ReadAck():
+    def ReadAck(self):
         tick()
 
-    def ReadNack():
+    def ReadNack(self):
         tick()
 
-    def Write():
+    def Write(self):
         tick()
 
-    def Stop():
+    def Stop(self):
         tick()
