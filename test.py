@@ -10,7 +10,7 @@ def main():
     i2c.WriteByte(0x46)
     i2c.WriteByte(0x10)
     i2c.Stop()
-    time.sleep(0.025)
+    time.sleep(0.180)
     i2c.Start()
     i2c.WriteByte(0x47)
     i2c.ReadAck()
