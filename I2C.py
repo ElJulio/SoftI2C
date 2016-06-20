@@ -77,6 +77,7 @@ class i2cMaster:
         GPIO.output(self.SCL, GPIO.LOW)
         GPIO.output(self.SDA, GPIO.LOW)
         self.tick(2)
+        return readbuffer
 
     def ReadNack(self):
         GPIO.setup(self.SDA, GPIO.IN)
@@ -95,6 +96,7 @@ class i2cMaster:
         GPIO.output(self.SCL, GPIO.LOW)
         GPIO.output(self.SDA, GPIO.LOW)
         self.tick(2)
+        return readbuffer
 
     def WriteByte(self,byte):
         if byte > 0xff:
