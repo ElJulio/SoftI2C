@@ -61,7 +61,22 @@ class i2cMaster:
 
 
     def ReadAck(self):
-        self.tick(1)
+        GPIO.setup(self.SDA, GPIO.IN)
+        readbuffer =0
+        for i in range(8)
+            GPIO.output(self.SCL, GPIO.HIGH)
+            self.tick(2)
+            readbuffer |= (GPIO.input(self.SDA)<< 7) >> i
+            GPIO.output(self.SCL, GPIO.LOW)
+            self.tick(2)
+
+        GPIO.setup(self.SDA, GPIO.OUT)
+        GPIO.output(self.SDA, GPIO.HIGH)
+        GPIO.output(self.SCL, GPIO.HIGH)
+        self.tick(2)
+        GPIO.output(self.SCL, GPIO.LOW)
+        GPIO.output(self.SDA, GPIO.LOW)
+        self.tick(2)
 
     def ReadNack(self):
         self.tick(1)
